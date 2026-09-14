@@ -1,0 +1,8 @@
+pandas
+numpy
+psycopg[binary]
+python-dotenv
+networkx
+plotly
+supabase
+openai
