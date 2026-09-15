@@ -1,30 +1,37 @@
 import { Pool } from "pg";
 
-const connectionString = process.env.SUPABASE_DB_URL;
-
-if (!connectionString) {
-  throw new Error("SUPABASE_DB_URL is missing from .env");
-}
-
 const globalForDb = globalThis as unknown as { pgPool?: Pool };
 
-export const pool =
-  globalForDb.pgPool ??
-  new Pool({
-    connectionString,
-    ssl: { rejectUnauthorized: false },
-    max: 8,
-  });
+function getPool() {
+  const connectionString = process.env.SUPABASE_DB_URL;
+  if (!connectionString) {
+    throw new Error("SUPABASE_DB_URL is missing from the environment");
+  }
 
-if (process.env.NODE_ENV !== "production") {
-  globalForDb.pgPool = pool;
+  if (!globalForDb.pgPool) {
+    globalForDb.pgPool = new Pool({
+      connectionString,
+      ssl: { rejectUnauthorized: false },
+      // Vercel serverless: keep this small so we do not exhaust the pooler.
+      max: process.env.VERCEL ? 3 : 8,
+    });
+  }
+
+  return globalForDb.pgPool;
 }
+
+export const pool = new Proxy({} as Pool, {
+  get(_target, prop, receiver) {
+    const value = Reflect.get(getPool(), prop, receiver);
+    return typeof value === "function" ? value.bind(getPool()) : value;
+  },
+});
 
 export async function query<T extends Record<string, unknown> = Record<string, unknown>>(
   text: string,
   params: unknown[] = [],
 ) {
-  const result = await pool.query(text, params);
+  const result = await getPool().query(text, params);
   return result.rows as T[];
 }
 
