@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { FilterBar, SelectField } from "@/components/ui/FilterBar";
 import { InsightCallout } from "@/components/ui/InsightCallout";
 import { KpiGrid } from "@/components/ui/KpiCard";
+import { PageLoader, RefreshingBar } from "@/components/ui/PageLoader";
 import { Panel } from "@/components/ui/Panel";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import {
@@ -48,7 +49,7 @@ export default function FraudNetworkPage() {
     return `/api/fraud?${q.toString()}`;
   }, [filters, date]);
 
-  const { data, loading, error } = useApi<FraudResponse>(url);
+  const { data, loading, refreshing, error } = useApi<FraudResponse>(url);
   const selected = data?.clusters.find((c) => c.clusterId === selectedId) ?? data?.selected;
 
   return (
@@ -59,8 +60,11 @@ export default function FraudNetworkPage() {
           subtitle="Suspicious clusters, repeat disputers, and the rings with the hottest chargeback intensity"
         />
         {error ? <p className="mb-3 text-[13px] text-rose-500">{error}</p> : null}
-        {loading ? <p className="mb-3 text-[12px] text-slate-400">Loading live data…</p> : null}
-
+        {refreshing ? <RefreshingBar /> : null}
+        {loading && !data ? (
+          <PageLoader embedded message="Building the fraud graph and ranking collusive rings." />
+        ) : (
+        <>
         <FilterBar>
           <SelectField label="Risk Level" value={filters.riskLevel} options={RISK_LEVELS} onChange={(riskLevel) => setFilters((f) => ({ ...f, riskLevel }))} />
           <SelectField
@@ -195,6 +199,8 @@ export default function FraudNetworkPage() {
             <ClusterHeatmap data={data?.clusters ?? []} selectedId={selected?.clusterId} onSelect={setSelectedId} />
           </Panel>
         </div>
+        </>
+        )}
       </div>
     </AppShell>
   );

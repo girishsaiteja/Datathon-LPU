@@ -10,6 +10,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { FilterBar, SelectField } from "@/components/ui/FilterBar";
 import { InsightCallout } from "@/components/ui/InsightCallout";
 import { KpiGrid } from "@/components/ui/KpiCard";
+import { PageLoader, RefreshingBar } from "@/components/ui/PageLoader";
 import { Panel } from "@/components/ui/Panel";
 import {
   MERCHANT_CATEGORIES,
@@ -63,8 +64,9 @@ export default function ExecutiveDashboardPage() {
     return `/api/dashboard?${q.toString()}`;
   }, [filters, date]);
 
-  const { data, loading, error } = useApi<DashboardResponse>(url);
+  const { data, loading, refreshing, error } = useApi<DashboardResponse>(url);
   const categories = meta?.merchantCategories ?? [...MERCHANT_CATEGORIES];
+  const firstLoad = loading && !data;
 
   return (
     <AppShell>
@@ -76,10 +78,14 @@ export default function ExecutiveDashboardPage() {
         {error ? (
           <p className="mb-3 text-[13px] text-rose-500">{error}</p>
         ) : null}
-        {loading ? (
-          <p className="mb-3 text-[12px] text-slate-400">Loading live data…</p>
-        ) : null}
-
+        {refreshing ? <RefreshingBar /> : null}
+        {firstLoad ? (
+          <PageLoader
+            embedded
+            message="Pulling KPIs, daily trends and chargeback mix from the warehouse."
+          />
+        ) : (
+        <>
         <FilterBar className="!grid grid-cols-2 sm:grid-cols-4">
           <SelectField
             label="Merchant Category"
@@ -239,6 +245,8 @@ export default function ExecutiveDashboardPage() {
             columns={2}
           />
         </Panel>
+        </>
+        )}
       </div>
     </AppShell>
   );

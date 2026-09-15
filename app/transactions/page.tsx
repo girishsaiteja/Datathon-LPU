@@ -11,6 +11,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { FilterBar, SelectField } from "@/components/ui/FilterBar";
 import { InsightCallout } from "@/components/ui/InsightCallout";
 import { KpiGrid } from "@/components/ui/KpiCard";
+import { PageLoader, RefreshingBar } from "@/components/ui/PageLoader";
 import { Panel } from "@/components/ui/Panel";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import {
@@ -83,7 +84,7 @@ export default function TransactionExplorerPage() {
     return `/api/transactions?${q.toString()}`;
   }, [filters, date, page, pageSize]);
 
-  const { data, loading, error } = useApi<TxnResponse>(url);
+  const { data, loading, refreshing, error } = useApi<TxnResponse>(url);
   const pages = data?.pages ?? 1;
   const amountRangeValue =
     AMOUNT_RANGES.find((r) => r.min === filters.amountMin && r.max === filters.amountMax)?.label ?? "All";
@@ -108,8 +109,11 @@ export default function TransactionExplorerPage() {
           onDateChange={() => setPage(1)}
         />
         {error ? <p className="mb-3 text-[13px] text-rose-500">{error}</p> : null}
-        {loading ? <p className="mb-3 text-[12px] text-slate-400">Loading live data…</p> : null}
-
+        {refreshing ? <RefreshingBar /> : null}
+        {loading && !data ? (
+          <PageLoader embedded message="Loading transactions, UTR quality and dispute delays." />
+        ) : (
+        <>
         <FilterBar>
           <SelectField label="Status" value={filters.status} options={TXN_STATUSES} onChange={(status) => updateFilter("status", status)} />
           <SelectField
@@ -323,6 +327,8 @@ export default function TransactionExplorerPage() {
             </label>
           </div>
         </Panel>
+        </>
+        )}
       </div>
     </AppShell>
   );

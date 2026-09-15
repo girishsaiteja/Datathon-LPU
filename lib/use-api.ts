@@ -26,5 +26,11 @@ export function useApi<T>(url: string | null) {
     return () => controller.abort();
   }, [url]);
 
-  return { data, loading, error };
+  return {
+    data,
+    loading,
+    refreshing: loading && data !== null,
+    error,
+  };
 }
+

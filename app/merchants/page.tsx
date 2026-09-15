@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { FilterBar, SelectField } from "@/components/ui/FilterBar";
 import { InsightCallout } from "@/components/ui/InsightCallout";
 import { KpiGrid } from "@/components/ui/KpiCard";
+import { PageLoader, RefreshingBar } from "@/components/ui/PageLoader";
 import { Panel } from "@/components/ui/Panel";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import {
@@ -61,7 +62,8 @@ export default function MerchantAnalysisPage() {
     return `/api/merchants?${q.toString()}`;
   }, [filters, date]);
 
-  const { data, loading, error } = useApi<MerchantResponse>(url);
+  const { data, loading, refreshing, error } = useApi<MerchantResponse>(url);
+  const firstLoad = loading && !data;
 
   return (
     <AppShell>
@@ -71,8 +73,11 @@ export default function MerchantAnalysisPage() {
           subtitle="Category performance, chargeback concentration, and where GMV and disputes diverge"
         />
         {error ? <p className="mb-3 text-[13px] text-rose-500">{error}</p> : null}
-        {loading ? <p className="mb-3 text-[12px] text-slate-400">Loading live data…</p> : null}
-
+        {refreshing ? <RefreshingBar /> : null}
+        {firstLoad ? (
+          <PageLoader embedded message="Scoring merchants, category leak and chargeback concentration." />
+        ) : (
+        <>
         <FilterBar>
           <SelectField
             label="State"
@@ -235,6 +240,8 @@ export default function MerchantAnalysisPage() {
         >
           <LeakSlopeChart data={data?.categoryLeak ?? []} />
         </Panel>
+        </>
+        )}
       </div>
     </AppShell>
   );
