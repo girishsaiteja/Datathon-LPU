@@ -6,7 +6,7 @@ LPU Datathon project. We cleaned the Track-1 UPI files, loaded them into Supabas
 | --- | --- |
 | **Repo** | [github.com/girishsaiteja/Datathon-LPU](https://github.com/girishsaiteja/Datathon-LPU) (public) |
 | **Stack** | Python / pandas · Postgres (Supabase) · Next.js 15 · Recharts · Gemini |
-| **Cleaning retention** | 98.4% kept (65,894 raw → 64,834 cleaned). We did not drop half the data. |
+| **Cleaning retention** | 98.4% kept (65,894 raw → 64,834 cleaned).|
 
 ## Contents
 
