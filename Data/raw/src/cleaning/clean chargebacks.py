@@ -1,3 +1,12 @@
+"""
+Clean track1 chargebacks (JSON).
+
+Ids are padded (3835 → MCH3835, TXN12345 → TXN00012345). Amounts lose ₹/Rs.
+Reason / severity slang (ato, P1–P4, H/L) is mapped to one vocabulary.
+Exact duplicate complaints are dropped. Missing txn_id stays NA so we can
+still flag unmatched disputes in fact_chargebacks.
+"""
+
 from pathlib import Path
 import json
 import pandas as pd
@@ -13,6 +22,8 @@ with open(
     data = json.load(file)
 
 chargebacks = pd.json_normalize(data)
+N_CB_RAW = len(chargebacks)
+print(f"[CHARGEBACKS] raw rows: {N_CB_RAW}")
 
 
 #complaint_id
@@ -25,6 +36,11 @@ chargebacks["complaint_id"] = (
 
 
 chargebacks = chargebacks.drop_duplicates().reset_index(drop=True)
+print(
+    f"[CHARGEBACKS] after exact-dup drop: {len(chargebacks)}  "
+    f"(from {N_CB_RAW})"
+)
+
 
 
 
@@ -328,5 +344,6 @@ chargebacks.to_csv(
 
 print("\nCleaned chargebacks saved to:")
 print(PROCESSED_DIR / "cleaned_chargebacks.csv")
+print(f"[CHARGEBACKS] cleaned rows: {len(chargebacks)}  kept {len(chargebacks) / N_CB_RAW:.1%}")
 
 

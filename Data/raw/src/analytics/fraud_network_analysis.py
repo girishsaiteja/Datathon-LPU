@@ -1,6 +1,15 @@
+"""
+Collusive-ring graph.
+
+Each (user_id, merchant_id) pair that transacted is an edge. Connected
+components become fraud_clusters. Members are stored so the UI can draw
+the hub-and-spoke network without recomputing graph theory in the browser.
+"""
+
 import pandas as pd
 import networkx as nx
 from pathlib import Path
+
 
 
 CURRENT_FILE = Path(__file__).resolve()

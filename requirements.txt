@@ -5,4 +5,5 @@ python-dotenv
 networkx
 plotly
 supabase
-openai
+notebook
+ipykernel

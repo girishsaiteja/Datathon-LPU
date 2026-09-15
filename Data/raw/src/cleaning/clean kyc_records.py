@@ -1,3 +1,12 @@
+"""
+Clean track1 KYC / customer records.
+
+We fix ids, OCR-ish names (0→o, 1→l), mixed DOB formats, ₹/k income, city
+nicknames and KYC status slang. Exact duplicate rows are removed. Duplicate
+user_ids with different details are kept here on purpose — dim_customer later
+picks the most complete row instead of deleting customers.
+"""
+
 from pathlib import Path
 import pandas as pd
 import re
@@ -8,6 +17,8 @@ RAW_DIR = CURRENT_FILE.parents[2]
 kyc = pd.read_csv(
     RAW_DIR / "track1_kyc_records.csv"
 )
+N_KYC_RAW = len(kyc)
+print(f"[KYC] raw rows: {N_KYC_RAW}")
 
 
 #user_id
@@ -25,7 +36,7 @@ kyc["user_id"] = (
 )
 
 
-#full_name 
+# Names: OCR noise in this dump used 0/1 instead of o/l (e.g. G0pal → Gopal).
 kyc["full_name"] = (
     kyc["full_name"]
     .str.replace("0", "o", regex=False)
@@ -47,6 +58,10 @@ kyc["pan"] = (
 
 
 def clean_date_of_birth(value):
+    """DOB arrived as unix (sometimes negative), DD-MMM-YY and DD-MM-YYYY.
+    Only years 1940–2010 are accepted as a real birth year; anything else
+    is left as-is so we don't invent a date.
+    """
 
     if pd.isna(value):
         return pd.NaT
@@ -240,7 +255,9 @@ kyc["state"] = (
 
 
 
-#montly_income
+# Income: ₹11,214 / 27.3k / INR 50000 → integer rupees. Negatives flipped
+# with abs() (sign error). Unparseable values become NA, row is kept.
+
 
 import re
 import pandas as pd
@@ -443,8 +460,14 @@ kyc["signup_timestamp"] = valid_dates.dt.strftime("%Y-%m-%d")
 
 
 
-#remove duplicates
 kyc = kyc.drop_duplicates().reset_index(drop=True)
+N_KYC_CLEAN = len(kyc)
+print(
+    f"[KYC] cleaned rows: {N_KYC_CLEAN}  "
+    f"(dropped {N_KYC_RAW - N_KYC_CLEAN} exact dups, "
+    f"kept {N_KYC_CLEAN / N_KYC_RAW:.1%})"
+)
+
 
 # data type conversion
 

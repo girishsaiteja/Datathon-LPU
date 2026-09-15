@@ -1,5 +1,14 @@
+"""
+Per-merchant risk rollup.
+
+Join dim_merchant to fact_transactions + fact_chargebacks. Rates are
+failed/chargeback counts over txn count. Flags mark repeat chargebacks and
+high rates so the dashboard can sort without re-aggregating in the browser.
+"""
+
 from pathlib import Path
 import pandas as pd
+
 
 
 CURRENT_FILE = Path(__file__).resolve()

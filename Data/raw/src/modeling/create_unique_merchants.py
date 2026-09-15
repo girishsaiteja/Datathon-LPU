@@ -1,5 +1,14 @@
+"""
+One merchant per merchant_id for dim_merchant.
+
+Same MCH id can appear with conflicting status/category. We score filled
+fields + Active status, keep the best row, and add merchant_key as a
+surrogate PK. Facts still join on merchant_id.
+"""
+
 from pathlib import Path
 import pandas as pd
+
 
 CURRENT_FILE = Path(__file__).resolve()
 RAW_DIR = CURRENT_FILE.parents[2]

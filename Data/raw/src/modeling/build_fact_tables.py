@@ -1,3 +1,14 @@
+"""
+Build fact_transactions and fact_chargebacks.
+
+Relationships are not ignored: we LEFT JOIN to dim_customer / dim_merchant /
+fact_transactions and write match + consistency flags.
+
+We do NOT delete unmatched rows. An unknown user_id on a payment is a signal
+(mule / orphan id), not a reason to throw the txn away. Hard FKs would have
+dropped those rows.
+"""
+
 from pathlib import Path
 import pandas as pd
 

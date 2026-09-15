@@ -1,5 +1,15 @@
+"""
+One customer per user_id for dim_customer.
+
+cleaned_kyc_records can still have the same USR id twice with different
+names/cities (messy source, not exact-row dups). We do not drop them in
+cleaning. Here we score completeness + Approved KYC and keep the best row
+so we don't throw away a usable customer profile.
+"""
+
 from pathlib import Path
 import pandas as pd
+
 
 CURRENT_FILE = Path(__file__).resolve()
 RAW_DIR = CURRENT_FILE.parents[2]

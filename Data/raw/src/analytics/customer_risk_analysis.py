@@ -1,5 +1,13 @@
+"""
+Per-customer risk rollup.
+
+Same idea as merchants: spend + fail + dispute mix → 0–100 score.
+Repeated / high-value dispute flags are boolean so Ask AI can filter them.
+"""
+
 from pathlib import Path
 import pandas as pd
+
 
 
 CURRENT_FILE = Path(__file__).resolve()

@@ -1,4 +1,14 @@
-#upi transactions
+"""
+Clean track1 UPI transactions + merchant master.
+
+Decision notes (why we do not drop half the file):
+- Most "bad" values are still recoverable: Rs./INR amounts, unix vs DD-MM-YY
+  timestamps, status aliases (F/S/COMPLETED), city nicknames (Bombay, Hyd).
+- We only drop exact duplicate rows after standardising. Nulls stay as null
+  unless we can fill them from the other table (MCC).
+- Negative declared ticket size is set to NA (the sign is junk) but the
+  merchant row is kept — deleting it would break transaction joins.
+"""
 
 import pandas as pd
 from pathlib import Path
@@ -8,6 +18,8 @@ RAW_DIR = Path(__file__).resolve().parents[2]
 transactions = pd.read_csv(
     RAW_DIR / "track1_upi_transactions.csv"
 )
+N_TXN_RAW = len(transactions)
+print(f"[UPI] raw rows: {N_TXN_RAW}")
 
 
 #tnx_id
@@ -15,8 +27,10 @@ transactions = pd.read_csv(
 
 
 
-#timestamp
+# timestamp: mix of unix seconds (1769823227) and day-first strings (05-01-26 9:33).
+# Parse both in place instead of dropping unparseable rows.
 timestamp = transactions["timestamp"].astype(str).str.strip()
+
 
 numeric_timestamp = pd.to_numeric(timestamp, errors="coerce")
 
@@ -56,7 +70,8 @@ transactions["user_id"] = transactions["user_id"].astype(str).str.upper()
 
 
 
-# #amount
+# amount: strip ₹ / Rs. / INR / commas, then abs() so a stray minus does not
+# create a negative payment. Failed parse -> NaN (row kept).
 transactions["amount"] = pd.to_numeric(
     transactions["amount"]
     .astype(str)
@@ -133,8 +148,16 @@ transactions["status"] = transactions["status"].map(status_map)
 
 
 
-#remove duplicates
+# Exact duplicate rows only (same txn after standardising). We do not drop
+# near-duplicates — two payments can share user + merchant + amount.
 transactions = transactions.drop_duplicates().reset_index(drop=True)
+N_TXN_CLEAN = len(transactions)
+print(
+    f"[UPI] cleaned rows: {N_TXN_CLEAN}  "
+    f"(dropped {N_TXN_RAW - N_TXN_CLEAN} exact dups, "
+    f"kept {N_TXN_CLEAN / N_TXN_RAW:.1%})"
+)
+
 
 # Set final data types for upi trans
 
@@ -169,6 +192,9 @@ transactions["status"] = transactions["status"].astype("string")
 merchants = pd.read_csv(
     RAW_DIR / "track1_merchants_master.csv"
 )
+N_MCH_RAW = len(merchants)
+print(f"[MERCHANTS] raw rows: {N_MCH_RAW}")
+
 
 #merchant_id
 merchants["merchant_id"] = (
@@ -501,7 +527,10 @@ merchants["declared_avg_ticket_size"] = pd.to_numeric(
 )
 
 
-#we are checking the negatives medium to medium of transactions amount if there are close the negatives can be positive if not they are invalid and can be null
+# Negative declared_avg_ticket_size is almost always a sign typo. We compared
+# a sample against that merchant's actual mean txn amount; they did not match
+# a simple sign flip, so we null the ticket size and KEEP the merchant row.
+
 merchant_txn_avg = (
     transactions
     .groupby("merchant_id")["amount"]
@@ -549,8 +578,10 @@ merchants["mcc"] = pd.to_numeric(
 ).astype("Int64")
 
 
-# Fill missing transaction MCC from merchant master
-# only when one unique MCC exists for the merchant
+# Impute, don't drop: if a txn MCC is blank but that merchant has exactly one
+# MCC in the master, copy it across. Reverse fill for merchant MCC from txns.
+# Skip merchants with conflicting MCCs — guessing would invent a category.
+
 
 merchant_mcc_unique = (
     merchants[merchants["mcc"].notna()]
@@ -617,8 +648,14 @@ merchants.loc[merchant_fill_mask, "mcc"] = (
 
 transactions["mcc"] = transactions["mcc"].astype("Int64")
 merchants["mcc"] = merchants["mcc"].astype("Int64")
-#remove duplicates
 merchants = merchants.drop_duplicates().reset_index(drop=True)
+N_MCH_CLEAN = len(merchants)
+print(
+    f"[MERCHANTS] cleaned rows: {N_MCH_CLEAN}  "
+    f"(dropped {N_MCH_RAW - N_MCH_CLEAN} exact dups, "
+    f"kept {N_MCH_CLEAN / N_MCH_RAW:.1%})"
+)
+
 
 merchants["merchant_id"] = merchants["merchant_id"].astype("string")
 
