@@ -131,3 +131,15 @@ export type SpikeRoseSlice = {
   avgFactor: number;
   chargebacks: number;
 };
+
+export type MerchantLeakPoint = {
+  merchantName: string;
+  category: string;
+  amountCr: number;
+  ratio: number;
+  ratioPct: number;
+  txns: number;
+  chargebacks: number;
+  disputed: number;
+  riskScore: number;
+};

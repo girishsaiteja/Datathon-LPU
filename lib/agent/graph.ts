@@ -298,7 +298,7 @@ ${TOOL_CATALOG}`,
     return { tool: "", args: {}, outOfScope: true, model: modelLabel };
   }
   const outOfScope = Boolean(parsed.outOfScope);
-  let toolName = String(parsed.tool || "");
+  const toolName = String(parsed.tool || "");
   const args: Record<string, unknown> = { limit: Number(parsed.limit ?? 10) || 10 };
   if (parsed.sql) args.sql = String(parsed.sql);
   if (parsed.title) args.title = String(parsed.title);

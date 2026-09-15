@@ -34,7 +34,7 @@ export function HorizontalBarChart({
                 dataKey="value"
                 position="right"
                 style={{ fontSize: 11, fill: "#334155", fontWeight: 600 }}
-                formatter={(value) => `${Number(value ?? 0)}${suffix}`}
+                formatter={(value: number | string) => `${Number(value ?? 0)}${suffix}`}
               />
             </Bar>
           </BarChart>
