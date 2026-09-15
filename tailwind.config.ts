@@ -35,6 +35,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-plus-jakarta)", "Inter", "system-ui", "sans-serif"],
         display: ["var(--font-plus-jakarta)", "Inter", "system-ui", "sans-serif"],
+        script: ["var(--font-caveat)", "cursive"],
       },
       boxShadow: {
         card: "0 8px 24px rgba(15, 35, 70, 0.06)",

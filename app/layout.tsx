@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Caveat, Plus_Jakarta_Sans } from "next/font/google";
 import { cookies } from "next/headers";
 import { DEFAULT_DATE_FROM, DEFAULT_DATE_TO } from "@/lib/constants";
 import { DATE_RANGE_COOKIE, parseDateRangeToken } from "@/lib/date-range-storage";
@@ -9,6 +9,12 @@ import "./globals.css";
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-plus-jakarta",
+  display: "swap",
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  variable: "--font-caveat",
   display: "swap",
 });
 
@@ -27,7 +33,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="en">
-      <body className={`${plusJakarta.variable} font-sans`}>
+      <body className={`${plusJakarta.variable} ${caveat.variable} font-sans`}>
         <Providers initialDate={initialDate}>{children}</Providers>
       </body>
     </html>

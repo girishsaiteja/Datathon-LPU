@@ -1,118 +1,125 @@
 "use client";
 
 import Link from "next/link";
-import { Bot, ShieldCheck, Sparkles, TrendingUp } from "lucide-react";
+import {
+  ArrowRight,
+  Bot,
+  Network,
+  Shield,
+  ShieldCheck,
+  TrendingUp,
+} from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
+import { IndiaSkyline } from "@/components/landing/IndiaSkyline";
+import { LandingTopBar, SoftLandingBg } from "@/components/landing/LandingChrome";
 import { PhoneMockup } from "@/components/landing/PhoneMockup";
 
 const FEATURES = [
   {
     icon: TrendingUp,
     title: "Real-time Insights",
-    desc: "Track transactions, merchants and disputes",
+    desc: "Track transactions, merchants and disputes.",
+    tone: "bg-sky-50 text-sky-600",
   },
   {
     icon: ShieldCheck,
     title: "Fraud Detection",
-    desc: "Identify risky patterns and networks",
+    desc: "Identify risky patterns and networks.",
+    tone: "bg-emerald-50 text-emerald-600",
   },
   {
-    icon: Sparkles,
+    icon: Network,
     title: "Data-driven Decisions",
-    desc: "Actionable analytics for safer payments",
+    desc: "Actionable analytics for safer payments.",
+    tone: "bg-violet-50 text-violet-600",
   },
   {
     icon: Bot,
     title: "AI Assistant",
-    desc: "Ask questions, get instant insights",
+    desc: "Ask questions, get instant insights.",
+    tone: "bg-rose-50 text-rose-500",
   },
-];
+] as const;
 
 export default function LandingPage() {
   return (
-    <AppShell dark>
-      <div className="relative min-h-screen overflow-hidden bg-[#071427] text-white">
-        <div className="network-dots absolute inset-0 opacity-40" />
-        <div className="pointer-events-none absolute inset-0 bg-navy-radial" />
-        <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-40" viewBox="0 0 1200 800">
-          <g stroke="rgba(96,165,250,0.28)" strokeWidth="0.8" fill="rgba(125,211,252,0.55)">
-            <circle cx="180" cy="140" r="2.4" />
-            <circle cx="320" cy="90" r="2" />
-            <circle cx="260" cy="240" r="2.2" />
-            <circle cx="420" cy="200" r="1.8" />
-            <circle cx="700" cy="80" r="2" />
-            <circle cx="880" cy="160" r="2.4" />
-            <circle cx="980" cy="60" r="1.6" />
-            <circle cx="1100" cy="220" r="2" />
-            <circle cx="150" cy="480" r="2" />
-            <circle cx="360" cy="560" r="2.2" />
-            <circle cx="520" cy="640" r="1.8" />
-            <circle cx="860" cy="520" r="2" />
-            <circle cx="1040" cy="600" r="2.2" />
-            <path d="M180 140 L320 90 L420 200 L260 240 Z" fill="none" />
-            <path d="M700 80 L880 160 L980 60 L1100 220" fill="none" />
-            <path d="M150 480 L360 560 L520 640 L860 520 L1040 600" fill="none" />
-          </g>
-        </svg>
+    <AppShell>
+      <div className="relative flex min-h-full flex-col overflow-hidden bg-white">
+        <SoftLandingBg />
+        <IndiaSkyline className="pointer-events-none absolute bottom-10 right-4 z-0 w-[380px] text-sky-300/30 lg:bottom-12 lg:right-8 lg:w-[480px]" />
 
-        <div className="relative z-10 px-10 pb-8 pt-6">
-          <div className="mb-2 flex items-center justify-end gap-2 text-[11px] font-semibold tracking-[0.18em] text-sky-200/70">
-            <span>Detect</span>
-            <span className="text-sky-400">·</span>
-            <span>Analyze</span>
-            <span className="text-sky-400">·</span>
-            <span>Prevent</span>
-          </div>
+        <div className="relative z-10 flex flex-1 flex-col px-7 pb-6 pt-4 lg:px-10">
+          <LandingTopBar />
 
-          <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-            <div className="max-w-2xl pt-6">
-              <h1 className="text-[52px] font-extrabold leading-[1.05] tracking-tight">
+          <div className="mt-4 grid flex-1 items-center lg:grid-cols-[minmax(0,440px)_minmax(0,1fr)] lg:gap-0">
+            <div className="relative z-20 max-w-xl">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#e8f1ff] px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-[#2563eb]">
+                <Shield className="h-3.5 w-3.5" />
+                UPI Fraud Analytics
+              </span>
+
+              <h1 className="mt-5 text-[42px] font-extrabold leading-[1.05] tracking-tight text-slate-900 lg:text-[50px]">
                 Safer Payments
                 <br />
                 Stronger Trust
                 <br />
-                <span className="bg-gradient-to-r from-sky-200 to-brand-400 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#2563eb] to-[#7c3aed] bg-clip-text text-transparent">
                   Better Tomorrow
                 </span>
               </h1>
-              <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-slate-300">
-                AI-powered fraud detection and merchant risk analytics for a safer UPI ecosystem.
+
+              <p className="mt-4 max-w-md text-[15px] leading-relaxed text-slate-500">
+                AI-powered fraud detection and merchant risk analytics for a safer
+                UPI ecosystem.
               </p>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
+
+              <div className="mt-7 flex flex-wrap items-center gap-3">
                 <Link
                   href="/dashboard"
-                  className="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-5 py-3 text-[14px] font-semibold text-white shadow-[0_12px_24px_rgba(47,107,255,0.35)] transition hover:bg-brand-600"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#2563eb] px-6 py-3 text-[14px] font-semibold text-white shadow-[0_12px_28px_rgba(37,99,235,0.32)] transition hover:bg-[#1d4ed8]"
                 >
-                  Get Started →
+                  Get Started
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href="/about"
+                  className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-[14px] font-semibold text-slate-700 hover:bg-slate-50"
+                >
+                  About project
                 </Link>
               </div>
             </div>
-            <PhoneMockup />
-          </div>
 
-          <div id="features" className="mt-14 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {FEATURES.map((feature) => (
-              <div
-                key={feature.title}
-                className="rounded-2xl border border-white/10 bg-white/[0.05] px-5 py-5 backdrop-blur-sm"
-              >
-                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-brand-500/20 text-sky-200">
-                  <feature.icon className="h-5 w-5" />
-                </div>
-                <h3 className="text-[15px] font-bold">{feature.title}</h3>
-                <p className="mt-1 text-[12.5px] leading-relaxed text-slate-300">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-5 text-[12px] text-slate-400">
-            <div className="flex flex-wrap gap-5">
-              <span>Banks</span>
-              <span>Merchants</span>
-              <span>Users</span>
-              <span>Regulators</span>
+            <div className="relative z-10 lg:-ml-12 xl:-ml-20">
+              <PhoneMockup />
             </div>
-            <div className="font-medium text-sky-200/80">A Safe UPI Ecosystem</div>
+          </div>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {FEATURES.map((feature) => {
+              const Icon = feature.icon;
+              return (
+                <div
+                  key={feature.title}
+                  className="rounded-2xl border border-slate-100 bg-white/95 p-4 shadow-[0_8px_24px_rgba(15,35,70,0.06)]"
+                >
+                  <div className="mb-2.5 flex items-start justify-between">
+                    <div
+                      className={`flex h-9 w-9 items-center justify-center rounded-full ${feature.tone}`}
+                    >
+                      <Icon className="h-4 w-4" />
+                    </div>
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#e8f1ff] text-[#2563eb]">
+                      <ArrowRight className="h-3 w-3" />
+                    </span>
+                  </div>
+                  <h3 className="text-[13.5px] font-bold text-slate-800">{feature.title}</h3>
+                  <p className="mt-0.5 text-[12px] leading-relaxed text-slate-500">
+                    {feature.desc}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
