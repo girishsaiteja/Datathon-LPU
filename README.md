@@ -581,7 +581,7 @@ Dashboard pages work on the Hobby plan. Ask AI may hit the ~10s Hobby timeout; u
 
 ## 9. Ask AI
 
-`/ask-ai` classifies the question (analytics / invalid / destructive / out-of-range date), then runs a known SQL tool or asks Gemini to plan a **read-only** query.
+`/ask-ai` intelligently classifies each question as **analytics, invalid, destructive, or out-of-range**. It then executes a trusted SQL tool or uses Gemini to generate a **safe, read-only query**, returning the result as a chart with a concise business insight.
 
 
 | Try | Expected |
