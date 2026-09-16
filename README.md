@@ -80,12 +80,12 @@ Code: pages in `app/`, charts in `components/`, SQL in `lib/live-data.ts`, DB in
 
 ---
 
-<div align="center">
+
 
 ## 3. Data Pipeline
 
 UPI Guard follows a reproducible **Raw → Clean → Validate → Store → Model → Analyze → Visualize → AI → Deploy** pipeline.
-
+<div align="center">
 <pre>
 RAW CSV / JSON
       │
