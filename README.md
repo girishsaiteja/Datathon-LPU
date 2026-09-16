@@ -80,9 +80,13 @@ Code: pages in `app/`, charts in `components/`, SQL in `lib/live-data.ts`, DB in
 
 ---
 
-## 3. Data pipeline
-<div align="center"> 
-```
+<div align="center">
+
+## 3. Data Pipeline
+
+UPI Guard follows a reproducible **Raw → Clean → Validate → Store → Model → Analyze → Visualize → AI → Deploy** pipeline.
+
+<pre>
 RAW CSV / JSON
       │
       ▼
@@ -126,7 +130,9 @@ Natural Language → Query → Chart → Insight
       ▼
 VERCEL DEPLOYMENT
 Live UPI Guard Dashboard
-```
+</pre>
+
+</div>
 
 | File | Raw | Cleaned | Kept | Script |
 | --- | ---: | ---: | ---: | --- |
