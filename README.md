@@ -3,6 +3,7 @@
 LPU Datathon project. We cleaned the Track-1 UPI files, loaded them into Supabase, and built a Next.js dashboard with Ask AI on top.
 
 | | |
+| --- | --- |
 | **Live Dashboard** | [https://datathon-lpu.vercel.app](https://datathon-lpu.vercel.app) |
 | **Live Demo Video** | [Google Drive Link](YOUR_DRIVE_VIDEO_LINK) |
 | **Final Presentation PDF** | [Google Drive Link](YOUR_DRIVE_PDF_LINK) |
@@ -62,6 +63,7 @@ Charts are live warehouse queries, not mock data. APIs: `/api/dashboard`, `/api/
 
 The header date slider is **1 Jan 2026 – 3 Dec 2026**. Change it on one page and it stays on the others until you move it again.
 | | |
+| --- | --- |
 | **Live Dashboard** | [https://datathon-lpu.vercel.app](https://datathon-lpu.vercel.app) |
 
 | Route | Page | What you see |
