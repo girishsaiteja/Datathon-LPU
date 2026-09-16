@@ -81,7 +81,7 @@ Code: pages in `app/`, charts in `components/`, SQL in `lib/live-data.ts`, DB in
 ---
 
 ## 3. Data pipeline
-
+<div align="center"> 
 ```
 RAW CSV / JSON
       │
