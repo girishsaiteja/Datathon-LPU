@@ -7,8 +7,8 @@ LPU Datathon project. We cleaned the UPI files, loaded them into Supabase, and b
 | | |
 | --- | --- |
 | **Live Dashboard** | [https://datathon-lpu.vercel.app](https://datathon-lpu.vercel.app) |
-| **Live Demo Video** | [Google Drive Link](YOUR_DRIVE_VIDEO_LINK) |
-| **Final Presentation PDF** | [Google Drive Link](YOUR_DRIVE_PDF_LINK) |
+| **Live Demo Video** | [Google Drive Link](https://drive.google.com/file/d/1XCZ8ee9IKVlCZKFmI0xDYoz12muQqAEl/view) |
+| **Final Presentation PDF** | [Google Drive Link](https://drive.google.com/file/d/1_LMgwy8ZQGDp6W6at9mbsMErggA4Q4h0/view) |
 | **GitHub Repository** | [github.com/girishsaiteja/Datathon-LPU](https://github.com/girishsaiteja/Datathon-LPU) (public) |
 | **Tech Stack** | Python / pandas · PostgreSQL (Supabase) · Next.js 15 · Recharts · Gemini API |
 | **Cleaning Retention** | 98.4% kept (65,894 raw → 64,834 cleaned) |
