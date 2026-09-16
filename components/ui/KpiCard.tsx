@@ -63,18 +63,28 @@ export function KpiCard({ item }: { item: KpiItem }) {
   const tone = TONE[item.tone ?? "default"];
   const Icon = iconForKpi(item.label);
   return (
-    <div className={`relative overflow-hidden rounded-2xl border border-slate-200/80 bg-gradient-to-br ${tone.wash} px-4 py-3.5 shadow-kpi`}>
-      <span className={`absolute inset-y-0 left-0 w-[3px] ${tone.bar}`} />
-      <div className="flex items-start justify-between gap-2 pl-1">
-        <p className="pr-1 text-[11px] font-semibold uppercase leading-snug tracking-[0.04em] text-slate-500">{item.label}</p>
-        <span className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${tone.icon}`}>
-          <Icon className="h-4 w-4" strokeWidth={2.2} />
+    <div
+      className={`group relative flex min-h-[112px] flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-gradient-to-br ${tone.wash} px-3.5 py-3 shadow-kpi transition duration-200 hover:-translate-y-0.5 hover:shadow-card`}
+    >
+      <span className={`absolute inset-y-2.5 left-0 w-[3px] rounded-r-full ${tone.bar}`} />
+      <div className="flex min-h-[34px] items-start justify-between gap-2 pl-0.5">
+        <p className="max-w-[112px] text-[9.5px] font-bold uppercase leading-[1.3] tracking-[0.045em] text-slate-500">
+          {item.label}
+        </p>
+        <span
+          className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ring-1 ring-black/[0.025] ${tone.icon}`}
+        >
+          <Icon className="h-3.5 w-3.5" strokeWidth={2.15} />
         </span>
       </div>
-      <p className={`mt-2 pl-1 text-[22px] font-extrabold leading-none tracking-tight ${tone.value}`}>{item.value}</p>
+      <p
+        className={`mt-1.5 pl-0.5 text-[20px] font-extrabold leading-none tracking-[-0.025em] ${tone.value}`}
+      >
+        {item.value}
+      </p>
       {item.change ? (
         <p
-          className={`mt-2 flex items-center gap-1 pl-1 text-[11px] font-semibold ${
+          className={`mt-auto flex items-center gap-1 pl-0.5 pt-2 text-[10px] font-bold ${
             item.change.good === false
               ? item.change.direction === "up"
                 ? "text-rose-500"
@@ -86,7 +96,7 @@ export function KpiCard({ item }: { item: KpiItem }) {
                 : "text-emerald-600"
           }`}
         >
-          {item.change.direction === "down" ? <TrendingDown className="h-3.5 w-3.5" /> : <TrendingUp className="h-3.5 w-3.5" />}
+          {item.change.direction === "down" ? <TrendingDown className="h-3 w-3" /> : <TrendingUp className="h-3 w-3" />}
           {item.change.value}
         </p>
       ) : null}
