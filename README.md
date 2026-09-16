@@ -583,7 +583,6 @@ Dashboard pages work on the Hobby plan. Ask AI may hit the ~10s Hobby timeout; u
 
 `/ask-ai` classifies the question (analytics / invalid / destructive / out-of-range date), then runs a known SQL tool or asks Gemini to plan a **read-only** query.
 
-Works inside **1 Jan 2026 – 3 Dec 2026** only.
 
 | Try | Expected |
 | --- | --- |
