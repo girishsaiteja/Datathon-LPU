@@ -83,21 +83,49 @@ Code: pages in `app/`, charts in `components/`, SQL in `lib/live-data.ts`, DB in
 ## 3. Data pipeline
 
 ```
-raw CSVs / JSON
-        │
-        ▼  cleaning scripts
-cleaned_*.csv
-        │
-        ▼  modeling
-dim_customer, dim_merchant, fact_transactions, fact_chargebacks
-        │
-        ▼  analytics
-risk scores + fraud network
-        │
-        ▼  loaders
-Postgres schema `datathon`
-        │
-        ▼  Next.js dashboard
+RAW CSV / JSON
+      │
+      ▼
+DATA INGESTION
+Python + Pandas
+      │
+      ▼
+DATA CLEANING & VALIDATION
+IDs • Timestamps • Amounts • Status
+Duplicates • Missing Values • UTR • Relationships
+      │
+      ▼
+SUPABASE POSTGRESQL
+Cleaned & Validated Data
+Schema: datathon
+      │
+      ▼
+DATA MODELING + SQL ANALYTICS
+Dimensions • Facts • Analytics Views
+KPIs • Merchant • Transaction • Chargeback • KYC
+      │
+      ▼
+ADVANCED ANALYTICS
+Python Risk & Network Analysis
+Customer Risk • Merchant Risk
+Fraud Network • Risk Clusters
+      │
+      ▼
+SUPABASE POSTGRESQL
+Advanced Analytics Tables
+      │
+      ▼
+NEXT.JS APPLICATION
+Executive Dashboard • Merchant Analytics
+Transaction Explorer • Fraud Network
+      │
+      ▼
+GEMINI AI AGENT
+Natural Language → Query → Chart → Insight
+      │
+      ▼
+VERCEL DEPLOYMENT
+Live UPI Guard Dashboard
 ```
 
 | File | Raw | Cleaned | Kept | Script |
