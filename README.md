@@ -1,6 +1,8 @@
 # UPI Guard
+UPI Guard is an AI-powered platform for UPI fraud detection, merchant risk analysis, and transaction intelligence.
+It transforms raw payment data into actionable insights through data cleaning, analytics, risk scoring, fraud-network analysis, and a Gemini AI agent.
 
-LPU Datathon project. We cleaned the Track-1 UPI files, loaded them into Supabase, and built a Next.js dashboard with Ask AI on top.
+LPU Datathon project. We cleaned the UPI files, loaded them into Supabase, and built a Next.js dashboard with Ask AI on top.
 
 | | |
 | --- | --- |
@@ -8,7 +10,7 @@ LPU Datathon project. We cleaned the Track-1 UPI files, loaded them into Supabas
 | **Live Demo Video** | [Google Drive Link](YOUR_DRIVE_VIDEO_LINK) |
 | **Final Presentation PDF** | [Google Drive Link](YOUR_DRIVE_PDF_LINK) |
 | **GitHub Repository** | [github.com/girishsaiteja/Datathon-LPU](https://github.com/girishsaiteja/Datathon-LPU) (public) |
-| **Tech Stack** | Python / pandas · PostgreSQL (Supabase) · Next.js 15 · Recharts · Gemini API|
+| **Tech Stack** | 🐍 Python / pandas · 🐘 PostgreSQL (Supabase) · ▲ Next.js 15 · 📊 Recharts · ✨ Gemini API |
 | **Cleaning Retention** | 98.4% kept (65,894 raw → 64,834 cleaned) |
 ## Contents
 
