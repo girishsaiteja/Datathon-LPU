@@ -98,7 +98,7 @@ Postgres schema `datathon`
 | File | Raw | Cleaned | Kept | Script |
 | --- | ---: | ---: | ---: | --- |
 | UPI transactions | 20,400 | 20,000 | 98.0% | `clean upi_trans and merchants_master.py` |
-| Merchants | 6,210 | 6,102 | 98.3% | same |
+| Merchants | 6,210 | 6,102 | 98.3% | `clean upi_trans and merchants_master.py` |
 | KYC | 36,400 | 35,932 | 98.7% | `clean kyc_records.py` |
 | Chargebacks | 2,884 | 2,800 | 97.1% | `clean chargebacks.py` |
 | **Total** | **65,894** | **64,834** | **98.4%** | |
